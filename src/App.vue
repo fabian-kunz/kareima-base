@@ -1,9 +1,9 @@
 <template>
-  <BaseLayout>
+  <AppShellLayout>
     <router-view />
-  </BaseLayout>
+  </AppShellLayout>
 </template>
 
 <script lang="ts" setup>
-import BaseLayout from "@/components/layout/BaseLayout.vue";
+import AppShellLayout from "@/components/layout/AppShellLayout.vue";
 </script>

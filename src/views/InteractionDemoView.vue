@@ -1,98 +1,107 @@
 <template>
-  <div class="d-flex flex-column ga-4">
-    <v-card class="pa-4 kareima-surface" elevation="0">
-      <h2 class="kareima-section-title mb-4">Alert-Varianten</h2>
-      <BaseAlert
-        type="success"
-        title="Erfolg"
-        message="Deine Änderung wurde dauerhaft gespeichert."
+  <KContainer>
+    <template #header>
+      <KPageHeader
+        title="Interaktions-Demo"
+        subtitle="Alerts, ConfirmDialog, Snackbar und kombinierte Nutzerflüsse"
       />
-      <BaseAlert
-        type="success"
-        message="Deine Änderung wurde dauerhaft gespeichert."
-      />
-      <BaseAlert
-        type="info"
-        title="Hinweis"
-        message="Dieses Modul nutzt zentrale Base-Komponenten für konsistentes Verhalten."
-      />
-      <BaseAlert
-        type="info"
-        message="Dieses Modul nutzt zentrale Base-Komponenten für konsistentes Verhalten."
-      />
-      <BaseAlert
-        type="warning"
-        title="Achtung"
-        message="Offene Pflichtfelder verhindern die Freigabe."
-      />
-      <BaseAlert
-        type="warning"
-        message="Offene Pflichtfelder verhindern die Freigabe."
-      />
-      <BaseAlert
-        type="error"
-        title="Fehler"
-        message="Beim Laden ist ein API-Fehler aufgetreten."
-      />
-      <BaseAlert
-        type="error"
-        message="Beim Laden ist ein API-Fehler aufgetreten."
-      />
-    </v-card>
+    </template>
 
-    <v-card class="pa-4 kareima-surface" elevation="0">
-      <h2 class="kareima-section-title mb-4">Aktionen und Feedback</h2>
-      <div class="d-flex flex-wrap ga-2">
-        <BaseActionButton intent="primary" @click="showSnack('success')">
-          Erfolg anzeigen
-        </BaseActionButton>
-        <BaseActionButton intent="warning" @click="showSnack('warning')">
-          Warnung anzeigen
-        </BaseActionButton>
-        <BaseActionButton intent="danger" @click="showSnack('error')">
-          Fehler anzeigen
-        </BaseActionButton>
-        <BaseActionButton intent="secondary" @click="confirmOpen = true">
-          Kritische Aktion starten
-        </BaseActionButton>
-      </div>
-    </v-card>
+    <template #body>
+      <div class="d-flex flex-column ga-4 view-body">
+        <v-card class="pa-4 kareima-surface" elevation="0">
+          <h2 class="kareima-section-title mb-4">Alert-Varianten</h2>
+          <KAlert
+            type="success"
+            title="Erfolg"
+            message="Deine Änderung wurde dauerhaft gespeichert."
+          />
+          <KAlert
+            type="info"
+            title="Hinweis"
+            message="Dieses Modul nutzt zentrale Base-Komponenten für konsistentes Verhalten."
+          />
+          <KAlert
+            type="warning"
+            title="Achtung"
+            message="Offene Pflichtfelder verhindern die Freigabe."
+          />
+          <KAlert
+            type="error"
+            title="Fehler"
+            message="Beim Laden ist ein API-Fehler aufgetreten."
+          />
+        </v-card>
 
-    <BaseConfirmDialog
-      v-model="confirmOpen"
-      title="Löschung bestätigen"
-      message="Möchtest du den Eintrag wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden."
-      confirm-label="Jetzt löschen"
-      confirm-intent="danger"
-      @cancel="onCancel"
-      @confirm="onConfirm"
-    />
+        <v-card class="pa-4 kareima-surface" elevation="0">
+          <h2 class="kareima-section-title mb-4">Aktionen und Feedback</h2>
+          <div class="d-flex flex-wrap ga-2">
+            <KActionButton intent="primary" @click="showSnack('success')">
+              Erfolg anzeigen
+            </KActionButton>
+            <KActionButton intent="warning" @click="showSnack('warning')">
+              Warnung anzeigen
+            </KActionButton>
+            <KActionButton intent="danger" @click="showSnack('error')">
+              Fehler anzeigen
+            </KActionButton>
+            <KActionButton intent="secondary" @click="confirmOpen = true">
+              Kritische Aktion starten
+            </KActionButton>
+          </div>
+        </v-card>
 
-    <BaseSnackbar
-      v-model="snackVisible"
-      :color="snackColor"
-      :message="snackMessage"
-    >
-      <template #actions>
-        <BaseActionButton
-          intent="ghost"
-          size="small"
-          @click="snackVisible = false"
+        <v-card class="pa-4 kareima-surface" elevation="0">
+          <h2 class="kareima-section-title mb-2">
+            Kompletter Interaktionsfluss
+          </h2>
+          <p class="kareima-section-subtitle mb-4">
+            1) Nutzer startet eine Aktion, 2) Dialog zur Bestätigung, 3)
+            Ergebnis als Snackbar.
+          </p>
+          <KActionButton intent="primary" @click="runWorkflow">
+            Demo-Workflow ausführen
+          </KActionButton>
+        </v-card>
+
+        <KConfirmDialog
+          v-model="confirmOpen"
+          title="Löschung bestätigen"
+          message="Möchtest du den Eintrag wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden."
+          confirm-label="Jetzt löschen"
+          confirm-intent="danger"
+          @cancel="onCancel"
+          @confirm="onConfirm"
+        />
+
+        <KSnackbar
+          v-model="snackVisible"
+          :color="snackColor"
+          :message="snackMessage"
         >
-          Schließen
-        </BaseActionButton>
-      </template>
-    </BaseSnackbar>
-  </div>
+          <template #actions>
+            <KActionButton
+              intent="ghost"
+              size="small"
+              @click="snackVisible = false"
+            >
+              Schließen
+            </KActionButton>
+          </template>
+        </KSnackbar>
+      </div>
+    </template>
+  </KContainer>
 </template>
 
 <script lang="ts" setup>
 import { ref } from "vue";
-import BaseActionButton from "@/components/base/BaseActionButton.vue";
-import BaseAlert from "@/components/base/BaseAlert.vue";
-import BaseConfirmDialog from "@/components/base/BaseConfirmDialog.vue";
-import BasePageHeader from "@/components/base/BasePageHeader.vue";
-import BaseSnackbar from "@/components/base/BaseSnackbar.vue";
+import KActionButton from "@/components/base/KActionButton.vue";
+import KAlert from "@/components/base/KAlert.vue";
+import KContainer from "@/components/base/KContainer.vue";
+import KConfirmDialog from "@/components/base/KConfirmDialog.vue";
+import KPageHeader from "@/components/base/KPageHeader.vue";
+import KSnackbar from "@/components/base/KSnackbar.vue";
 
 const confirmOpen = ref(false);
 const snackVisible = ref(false);
@@ -128,3 +137,11 @@ function runWorkflow() {
   confirmOpen.value = true;
 }
 </script>
+
+<style scoped>
+.view-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+}
+</style>

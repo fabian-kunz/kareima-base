@@ -1,163 +1,220 @@
 <template>
-  <div class="d-flex flex-column ga-4">
-    <BasePageHeader
-      title="Kareima Basisprojekt und Komponenten"
-      subtitle="Gemeinsame Start- und Showcase-Seite für Basis-Komponenten und Einsatzregeln"
-    >
-      <template #actions>
-        <BaseActionButton intent="primary">Primary</BaseActionButton>
-        <BaseActionButton intent="secondary">Secondary</BaseActionButton>
-      </template>
-    </BasePageHeader>
+  <KContainer>
+    <template #header>
+      <KPageHeader
+        title="Kareima Basisprojekt und Komponenten"
+        subtitle="Gemeinsame Start- und Showcase-Seite für Basis-Komponenten und Einsatzregeln"
+      >
+        <template #actions>
+          <KActionButton intent="primary">Primary</KActionButton>
+          <KActionButton intent="secondary">Secondary</KActionButton>
+        </template>
+      </KPageHeader>
+    </template>
 
-    <v-card class="pa-4 kareima-surface" elevation="0">
-      <h2 class="kareima-section-title mb-4">Buttons (Intent-Varianten)</h2>
-      <div class="d-flex flex-wrap ga-2">
-        <BaseActionButton intent="primary">Speichern</BaseActionButton>
-        <BaseActionButton intent="secondary">Aktualisieren</BaseActionButton>
-        <BaseActionButton intent="ghost">Abbrechen</BaseActionButton>
-        <BaseActionButton intent="danger">Löschen</BaseActionButton>
-      </div>
-
-      <div class="d-flex flex-wrap ga-2 mt-4">
-        <BaseActionButton intent="primary" @click="showSnack('success')"
-          >Snackbar Erfolg</BaseActionButton
-        >
-        <BaseActionButton intent="warning" @click="showSnack('warning')"
-          >Snackbar Warnung</BaseActionButton
-        >
-        <BaseActionButton intent="danger" @click="showSnack('error')"
-          >Snackbar Fehler</BaseActionButton
-        >
-      </div>
-    </v-card>
-
-    <v-card class="pa-4 kareima-surface" elevation="0">
-      <h2 class="kareima-section-title mb-4">Form Controls</h2>
-      <v-row>
-        <v-col cols="12" md="6">
-          <BaseTextField
-            v-model="demoName"
-            label="Name"
-            prepend-inner-icon="mdi-tag-outline"
-          />
-        </v-col>
-        <v-col cols="12" md="6">
-          <BaseTextField
-            v-model="demoPrice"
-            label="Preis"
-            type="number"
-            prepend-inner-icon="mdi-currency-eur"
-          />
-        </v-col>
-        <v-col cols="12" md="6">
-          <BaseTextField
-            :model-value="demoReadonlyPrice"
-            label="UVP Maschine (readonly Beispiel)"
-            prepend-inner-icon="mdi-cash"
-            append-inner-icon="mdi-pencil-off-outline"
-            readonly
-          />
-        </v-col>
-      </v-row>
-    </v-card>
-
-    <v-card class="pa-4 kareima-surface" elevation="0">
-      <h2 class="kareima-section-title mb-4">Filter</h2>
-      <BaseFilterPanel
-        v-model="filters"
-        :categories="categories"
-        class="mb-4"
-      />
-    </v-card>
-
-    <v-card class="pa-4 kareima-surface" elevation="0">
-      <v-row class="align-center mb-2">
-        <v-col cols="12" md="6">
-          <h2 class="kareima-section-title">Tabelle</h2>
-        </v-col>
-        <v-col cols="12" md="6" class="d-flex justify-end">
-          <div class="d-flex align-center ga-4">
-            <v-btn-toggle
-              v-model="tableActionMode"
-              density="comfortable"
-              color="primary"
-              mandatory
-            >
-              <v-btn value="actions">Actions</v-btn>
-              <v-btn value="menu">Menu</v-btn>
-            </v-btn-toggle>
-
-            <v-switch
-              v-model="isCompactDensity"
-              hide-details
-              inset
-              color="primary"
-              :label="isCompactDensity ? 'Dichte: Kompakt' : 'Dichte: Normal'"
-            />
+    <template #body>
+      <div class="d-flex flex-column ga-4 view-body">
+        <v-card class="pa-4 kareima-surface" elevation="0">
+          <h2 class="kareima-section-title mb-4">Buttons (Intent-Varianten)</h2>
+          <div class="d-flex flex-wrap ga-2">
+            <KActionButton intent="primary">Speichern</KActionButton>
+            <KActionButton intent="secondary">Aktualisieren</KActionButton>
+            <KActionButton intent="ghost">Abbrechen</KActionButton>
+            <KActionButton intent="danger">Löschen</KActionButton>
           </div>
-        </v-col>
-      </v-row>
-      <BaseTable
-        :density="tableDensity"
-        :action-mode="tableActionMode"
-        :headers="tableHeaders"
-        :items="tableItems"
-        :row-actions="tableRowActions"
-        empty-text="Keine Maschinen vorhanden."
-        @action="handleTableAction"
-      />
-    </v-card>
 
-    <v-card class="pa-4 kareima-surface" elevation="0">
-      <h2 class="kareima-section-title mb-4">Alerts</h2>
-      <BaseAlert
-        type="info"
-        message="Dies ist ein Info-Hinweis für den Benutzer."
-      />
-      <BaseAlert
-        type="warning"
-        message="Bitte überprüfe Pflichtfelder vor dem Speichern."
-      />
-      <BaseAlert
-        type="error"
-        message="Ein Eintrag konnte nicht geladen werden."
-      />
-    </v-card>
+          <div class="d-flex flex-wrap ga-2 mt-4">
+            <KActionButton intent="primary" @click="showSnack('success')"
+              >Snackbar Erfolg</KActionButton
+            >
+            <KActionButton intent="warning" @click="showSnack('warning')"
+              >Snackbar Warnung</KActionButton
+            >
+            <KActionButton intent="danger" @click="showSnack('error')"
+              >Snackbar Fehler</KActionButton
+            >
+          </div>
+        </v-card>
 
-    <BaseConfirmDialog
-      v-model="dialog"
-      title="Aktion bestätigen"
-      message="Dies ist der zentrale Showcase-Dialog für kritische Aktionen."
-      confirm-label="Verstanden"
-      @cancel="dialog = false"
-      @confirm="dialog = false"
-    />
+        <v-card class="pa-4 kareima-surface" elevation="0">
+          <h2 class="kareima-section-title mb-4">Form Controls</h2>
+          <v-row>
+            <v-col cols="12" md="6">
+              <KTextField
+                v-model="demoName"
+                label="Name"
+                prepend-inner-icon="mdi-tag-outline"
+              />
+            </v-col>
+            <v-col cols="12" md="6">
+              <KTextField
+                v-model="demoPrice"
+                label="Preis"
+                type="number"
+                prepend-inner-icon="mdi-currency-eur"
+              />
+            </v-col>
+            <v-col cols="12" md="6">
+              <KTextField
+                :model-value="demoReadonlyPrice"
+                label="UVP Maschine (readonly Beispiel)"
+                prepend-inner-icon="mdi-cash"
+                append-inner-icon="mdi-pencil-off-outline"
+                readonly
+              />
+            </v-col>
+          </v-row>
+        </v-card>
 
-    <BaseSnackbar
-      v-model="snackbarVisible"
-      :color="snackbarColor"
-      :message="snackbarMessage"
-    />
-  </div>
+        <v-card class="pa-4 kareima-surface" elevation="0">
+          <h2 class="kareima-section-title mb-4">Filter</h2>
+          <KFilterPanel
+            v-model="filters"
+            :categories="categories"
+            class="mb-4"
+          />
+        </v-card>
+
+        <v-card class="pa-4 kareima-surface" elevation="0">
+          <v-row class="align-center mb-2">
+            <v-col cols="12" md="6">
+              <h2 class="kareima-section-title">Tabelle</h2>
+            </v-col>
+            <v-col cols="12" md="6" class="d-flex justify-end">
+              <div class="d-flex align-center ga-4">
+                <v-btn-toggle
+                  v-model="tableActionMode"
+                  density="comfortable"
+                  color="primary"
+                  mandatory
+                >
+                  <v-btn value="actions">Actions</v-btn>
+                  <v-btn value="menu">Menu</v-btn>
+                </v-btn-toggle>
+
+                <v-switch
+                  v-model="isCompactDensity"
+                  hide-details
+                  inset
+                  color="primary"
+                  :label="
+                    isCompactDensity ? 'Dichte: Kompakt' : 'Dichte: Normal'
+                  "
+                />
+              </div>
+            </v-col>
+          </v-row>
+          <KTable
+            :density="tableDensity"
+            :action-mode="tableActionMode"
+            :headers="tableHeaders"
+            :items="tableItems"
+            :row-actions="tableRowActions"
+            empty-text="Keine Maschinen vorhanden."
+            @action="handleTableAction"
+          />
+        </v-card>
+
+        <v-card class="pa-4 kareima-surface" elevation="0">
+          <h2 class="kareima-section-title mb-4">Alerts</h2>
+          <KAlert
+            type="info"
+            message="Dies ist ein Info-Hinweis für den Benutzer."
+          />
+          <KAlert
+            type="warning"
+            message="Bitte überprüfe Pflichtfelder vor dem Speichern."
+          />
+          <KAlert
+            type="error"
+            message="Ein Eintrag konnte nicht geladen werden."
+          />
+        </v-card>
+
+        <v-card class="pa-4 kareima-surface" elevation="0">
+          <h2 class="kareima-section-title">Beispiel-Daten</h2>
+          <p class="kareima-section-subtitle mb-4">
+            Diese Fläche zeigt, wie Listen oder Tabellen auf Basis der Filter
+            eingebettet werden.
+          </p>
+
+          <v-chip-group column>
+            <v-chip
+              v-for="item in renderedFilterSummary"
+              :key="item"
+              color="primary"
+              variant="tonal"
+            >
+              {{ item }}
+            </v-chip>
+          </v-chip-group>
+
+          <div class="d-flex ga-2 mt-6">
+            <KActionButton intent="secondary" @click="dialog = true"
+              >Dialog öffnen</KActionButton
+            >
+          </div>
+        </v-card>
+
+        <v-card class="pa-4 kareima-surface" elevation="0">
+          <h2 class="kareima-section-title mb-3">Weitere Showcase-Views</h2>
+          <p class="kareima-section-subtitle mb-4">
+            Die Demo ist jetzt in mehrere Seiten aufgeteilt, damit jede
+            Komponente in einem klaren Kontext gezeigt wird.
+          </p>
+
+          <div class="d-flex flex-wrap ga-2">
+            <KActionButton intent="ghost" @click="goTo('/inputs-showcase')">
+              Input-Showcase
+            </KActionButton>
+            <KActionButton intent="primary" @click="goTo('/table-showcase')"
+              >Tabellen-Showcase</KActionButton
+            >
+            <KActionButton
+              intent="secondary"
+              @click="goTo('/interaction-demo')"
+            >
+              Interaktions-Demo
+            </KActionButton>
+            <KActionButton intent="secondary" @click="goTo('/guide')">
+              Projekt-Guide
+            </KActionButton>
+          </div>
+        </v-card>
+
+        <KConfirmDialog
+          v-model="dialog"
+          title="Aktion bestätigen"
+          message="Dies ist der zentrale Showcase-Dialog für kritische Aktionen."
+          confirm-label="Verstanden"
+          @cancel="dialog = false"
+          @confirm="dialog = false"
+        />
+
+        <KSnackbar
+          v-model="snackbarVisible"
+          :color="snackbarColor"
+          :message="snackbarMessage"
+        />
+      </div>
+    </template>
+  </KContainer>
 </template>
 
 <script lang="ts" setup>
 import { computed, ref } from "vue";
 import { useRouter } from "vue-router";
-import BaseActionButton from "@/components/base/BaseActionButton.vue";
-import BaseAlert from "@/components/base/BaseAlert.vue";
-import BaseConfirmDialog from "@/components/base/BaseConfirmDialog.vue";
-import BaseFilterPanel from "@/components/base/BaseFilterPanel.vue";
-import BasePageHeader from "@/components/base/BasePageHeader.vue";
-import BaseSnackbar from "@/components/base/BaseSnackbar.vue";
-import BaseTable from "@/components/base/BaseTable.vue";
-import BaseTextField from "@/components/base/BaseTextField.vue";
+import KActionButton from "@/components/base/KActionButton.vue";
+import KAlert from "@/components/base/KAlert.vue";
+import KContainer from "@/components/base/KContainer.vue";
+import KConfirmDialog from "@/components/base/KConfirmDialog.vue";
+import KFilterPanel from "@/components/base/KFilterPanel.vue";
+import KPageHeader from "@/components/base/KPageHeader.vue";
+import KSnackbar from "@/components/base/KSnackbar.vue";
+import KTable from "@/components/base/KTable.vue";
+import KTextField from "@/components/base/KTextField.vue";
 import type { BaseFilterModel } from "@/types/filters";
-import type {
-  BaseTableAction,
-  BaseTableHeader,
-} from "@/components/base/BaseTable.vue";
+import type { KTableAction, KTableHeader } from "@/components/base/KTable.vue";
 import { formatDate, formatDateTime } from "@/utils/formatDate";
 import { formatPrice } from "@/utils/formatPrice";
 
@@ -176,7 +233,7 @@ const tableDensity = computed<"compact" | "normal">(() =>
 );
 const tableActionMode = ref<"actions" | "menu">("menu");
 
-const tableHeaders: BaseTableHeader[] = [
+const tableHeaders: KTableHeader[] = [
   { key: "name", title: "Name", sortable: true },
   {
     key: "kategorie",
@@ -265,7 +322,7 @@ const tableRawItems = ref([
   },
 ]);
 
-const tableRowActions: BaseTableAction[] = [
+const tableRowActions: KTableAction[] = [
   { key: "edit", label: "Bearbeiten", icon: "mdi-pencil", color: "primary" },
   {
     key: "copy",
@@ -342,3 +399,11 @@ function goTo(path: string) {
   router.push(path);
 }
 </script>
+
+<style scoped>
+.view-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+}
+</style>

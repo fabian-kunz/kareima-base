@@ -1,73 +1,79 @@
 <template>
-  <div class="d-flex flex-column ga-4">
-    <BasePageHeader
-      title="Tabellen-Showcase"
-      subtitle="Sortierung, Aktionen, Zeilenklick und expandierte Detailzeilen mit BaseTable"
-    >
-      <template #actions>
-        <BaseActionButton intent="secondary" @click="toggleDensity">
-          {{ compactDensity ? "Dichte: Kompakt" : "Dichte: Normal" }}
-        </BaseActionButton>
-        <BaseActionButton intent="ghost" @click="toggleActionMode">
-          {{ actionMode === "actions" ? "Aktionen: Buttons" : "Aktionen: Menü" }}
-        </BaseActionButton>
-      </template>
-    </BasePageHeader>
+  <KContainer>
+    <template #header>
+      <KPageHeader
+        title="Tabellen-Showcase"
+        subtitle="Sortierung, Aktionen, Zeilenklick und expandierte Detailzeilen mit KTable"
+      >
+        <template #actions>
+          <KActionButton intent="secondary" @click="toggleDensity">
+            {{ compactDensity ? "Dichte: Kompakt" : "Dichte: Normal" }}
+          </KActionButton>
+          <KActionButton intent="ghost" @click="toggleActionMode">
+            {{
+              actionMode === "actions" ? "Aktionen: Buttons" : "Aktionen: Menü"
+            }}
+          </KActionButton>
+        </template>
+      </KPageHeader>
+    </template>
 
-    <BaseAlert
-      type="info"
-      message="Klicke auf eine Zeile, nutze Aktionen oder öffne Detailzeilen über den Button ganz rechts."
-    />
+    <template #body>
+      <div class="d-flex flex-column ga-4 view-body">
+        <KAlert
+          type="info"
+          message="Klicke auf eine Zeile, nutze Aktionen oder öffne Detailzeilen über den Button ganz rechts."
+        />
 
-    <BaseTable
-      :headers="headers"
-      :items="items"
-      :density="compactDensity ? 'compact' : 'normal'"
-      :action-mode="actionMode"
-      :row-actions="resolveRowActions"
-      :clickable-rows="true"
-      :row-class="resolveRowClass"
-      :expandable-rows="true"
-      :can-expand-row="canExpandRow"
-      expand-column-position="end"
-      expand-label="Historie"
-      collapse-label="Schließen"
-      empty-text="Keine Einträge vorhanden."
-      @action="onAction"
-      @row-click="onRowClick"
-    >
-      <template #expanded-row="{ item }">
-        <div class="pa-4 bg-grey-lighten-5">
-          <h3 class="text-subtitle-2 mb-2">Statusverlauf</h3>
-          <BaseTable
-            :headers="historyHeaders"
-            :items="historyFor(item)"
-            density="compact"
-            empty-text="Keine Historie vorhanden."
-          />
-        </div>
-      </template>
-    </BaseTable>
+        <KTable
+          :headers="headers"
+          :items="items"
+          :density="compactDensity ? 'compact' : 'normal'"
+          :action-mode="actionMode"
+          :row-actions="resolveRowActions"
+          :clickable-rows="true"
+          :row-class="resolveRowClass"
+          :expandable-rows="true"
+          :can-expand-row="canExpandRow"
+          expand-column-position="end"
+          expand-label="Historie"
+          collapse-label="Schließen"
+          empty-text="Keine Einträge vorhanden."
+          @action="onAction"
+          @row-click="onRowClick"
+        >
+          <template #expanded-row="{ item }">
+            <div class="pa-4 bg-grey-lighten-5">
+              <h3 class="text-subtitle-2 mb-2">Statusverlauf</h3>
+              <KTable
+                :headers="historyHeaders"
+                :items="historyFor(item)"
+                density="compact"
+                empty-text="Keine Historie vorhanden."
+              />
+            </div>
+          </template>
+        </KTable>
 
-    <BaseSnackbar
-      v-model="snackbarVisible"
-      :color="snackbarColor"
-      :message="snackbarMessage"
-    />
-  </div>
+        <KSnackbar
+          v-model="snackbarVisible"
+          :color="snackbarColor"
+          :message="snackbarMessage"
+        />
+      </div>
+    </template>
+  </KContainer>
 </template>
 
 <script lang="ts" setup>
 import { ref } from "vue";
-import BaseActionButton from "@/components/base/BaseActionButton.vue";
-import BaseAlert from "@/components/base/BaseAlert.vue";
-import BasePageHeader from "@/components/base/BasePageHeader.vue";
-import BaseSnackbar from "@/components/base/BaseSnackbar.vue";
-import BaseTable from "@/components/base/BaseTable.vue";
-import type {
-  BaseTableAction,
-  BaseTableHeader,
-} from "@/components/base/BaseTable.vue";
+import KActionButton from "@/components/base/KActionButton.vue";
+import KAlert from "@/components/base/KAlert.vue";
+import KContainer from "@/components/base/KContainer.vue";
+import KPageHeader from "@/components/base/KPageHeader.vue";
+import KSnackbar from "@/components/base/KSnackbar.vue";
+import KTable from "@/components/base/KTable.vue";
+import type { KTableAction, KTableHeader } from "@/components/base/KTable.vue";
 import { formatDateTime } from "@/utils/formatDate";
 import { formatPrice } from "@/utils/formatPrice";
 
@@ -95,7 +101,7 @@ const snackbarVisible = ref(false);
 const snackbarColor = ref<"success" | "warning" | "error">("success");
 const snackbarMessage = ref("Aktion ausgeführt.");
 
-const headers: BaseTableHeader[] = [
+const headers: KTableHeader[] = [
   {
     key: "name",
     title: "Eintrag",
@@ -146,7 +152,7 @@ const headers: BaseTableHeader[] = [
   },
 ];
 
-const historyHeaders: BaseTableHeader[] = [
+const historyHeaders: KTableHeader[] = [
   {
     key: "changedAt",
     title: "Zeitpunkt",
@@ -210,7 +216,7 @@ const items = ref<DemoRow[]>([
   },
 ]);
 
-function resolveRowActions(item: object): BaseTableAction[] {
+function resolveRowActions(item: object): KTableAction[] {
   const row = item as DemoRow;
 
   return [
@@ -289,3 +295,11 @@ function onAction(payload: { actionKey: string; item: object }) {
   snackbarVisible.value = true;
 }
 </script>
+
+<style scoped>
+.view-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+}
+</style>

@@ -10,18 +10,6 @@
     </v-list-item>
 
     <v-list-item
-      title="Tabellen-Showcase"
-      @click="router.push('/table-showcase')"
-    >
-      <template #prepend>
-        <v-icon
-          :class="currentRoute === '/table-showcase' ? 'active' : ''"
-          icon="mdi-table-large"
-        />
-      </template>
-    </v-list-item>
-
-    <v-list-item
       title="Input-Showcase"
       @click="router.push('/inputs-showcase')"
     >
@@ -29,6 +17,18 @@
         <v-icon
           :class="currentRoute === '/inputs-showcase' ? 'active' : ''"
           icon="mdi-form-dropdown"
+        />
+      </template>
+    </v-list-item>
+
+    <v-list-item
+      title="Tabellen-Showcase"
+      @click="router.push('/table-showcase')"
+    >
+      <template #prepend>
+        <v-icon
+          :class="currentRoute === '/table-showcase' ? 'active' : ''"
+          icon="mdi-table-large"
         />
       </template>
     </v-list-item>
@@ -45,14 +45,11 @@
       </template>
     </v-list-item>
 
-    <v-list-item
-      title="Modul-Template"
-      @click="router.push('/module-template')"
-    >
+    <v-list-item title="Projekt-Guide" @click="router.push('/guide')">
       <template #prepend>
         <v-icon
-          :class="currentRoute === '/module-template' ? 'active' : ''"
-          icon="mdi-file-code-outline"
+          :class="currentRoute === '/guide' ? 'active' : ''"
+          icon="mdi-book-open-page-variant-outline"
         />
       </template>
     </v-list-item>
