@@ -1,0 +1,23 @@
+:root {
+  --kareima-color-primary: #02a77f;
+  --kareima-color-primary-dark: #0c6e5d;
+  --kareima-color-accent: #127c67;
+  --kareima-color-surface: #ffffff;
+  --kareima-color-page: #f4f6f8;
+  --kareima-color-border: #d8dee4;
+  --kareima-color-text: #0f172a;
+  --kareima-color-text-muted: #64748b;
+
+  --kareima-radius-s: 8px;
+  --kareima-radius-m: 12px;
+  --kareima-radius-l: 16px;
+
+  --kareima-space-1: 4px;
+  --kareima-space-2: 8px;
+  --kareima-space-3: 12px;
+  --kareima-space-4: 16px;
+  --kareima-space-5: 24px;
+  --kareima-space-6: 32px;
+
+  --kareima-shadow-soft: 0 10px 30px rgba(15, 23, 42, 0.08);
+}

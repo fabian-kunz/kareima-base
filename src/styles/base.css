@@ -1,0 +1,53 @@
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#app {
+  margin: 0;
+  height: 100%;
+  background: #dfe0eb;
+  color: var(--kareima-color-text);
+  overflow: hidden;
+}
+
+.kareima-page {
+  padding: var(--kareima-space-6) var(--kareima-space-5);
+  height: 100%;
+  overflow-y: auto;
+}
+
+.kareima-content-container {
+  width: 100%;
+  height: 100%;
+  background: #ffffff;
+  border-radius: var(--kareima-radius-l);
+  border: 1px solid var(--kareima-color-border);
+  box-shadow: var(--kareima-shadow-soft);
+  overflow: hidden;
+}
+
+.kareima-surface {
+  background: var(--kareima-color-surface);
+  border: 1px solid var(--kareima-color-border);
+  border-radius: var(--kareima-radius-l);
+  box-shadow: var(--kareima-shadow-soft);
+}
+
+.kareima-section-title {
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 700;
+}
+
+.kareima-section-subtitle {
+  margin: var(--kareima-space-2) 0 0;
+  color: var(--kareima-color-text-muted);
+}
+
+@media (max-width: 960px) {
+  .kareima-page {
+    padding: var(--kareima-space-5) var(--kareima-space-4);
+  }
+}
