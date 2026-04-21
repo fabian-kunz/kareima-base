@@ -13,14 +13,14 @@
 
 <script lang="ts" setup>
 defineProps<{
-  modelValue: number | null | undefined;
+  modelValue: number | null;
 }>();
 
 const emit = defineEmits<{
-  (e: "update:modelValue", value: number | null | undefined): void;
+  (e: "update:modelValue", value: number | null): void;
 }>();
 
-function onUpdate(value: number | null | undefined) {
+function onUpdate(value: number | null) {
   emit("update:modelValue", value);
 }
 </script>

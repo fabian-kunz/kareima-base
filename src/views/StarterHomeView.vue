@@ -125,31 +125,6 @@
       />
     </v-card>
 
-    <v-card class="pa-4 kareima-surface" elevation="0">
-      <h2 class="kareima-section-title">Beispiel-Daten</h2>
-      <p class="kareima-section-subtitle mb-4">
-        Diese Fläche zeigt, wie Listen oder Tabellen auf Basis der Filter
-        eingebettet werden.
-      </p>
-
-      <v-chip-group column>
-        <v-chip
-          v-for="item in renderedFilterSummary"
-          :key="item"
-          color="primary"
-          variant="tonal"
-        >
-          {{ item }}
-        </v-chip>
-      </v-chip-group>
-
-      <div class="d-flex ga-2 mt-6">
-        <BaseActionButton intent="secondary" @click="dialog = true"
-          >Dialog öffnen</BaseActionButton
-        >
-      </div>
-    </v-card>
-
     <BaseConfirmDialog
       v-model="dialog"
       title="Aktion bestätigen"
@@ -169,6 +144,7 @@
 
 <script lang="ts" setup>
 import { computed, ref } from "vue";
+import { useRouter } from "vue-router";
 import BaseActionButton from "@/components/base/BaseActionButton.vue";
 import BaseAlert from "@/components/base/BaseAlert.vue";
 import BaseConfirmDialog from "@/components/base/BaseConfirmDialog.vue";
@@ -186,6 +162,7 @@ import { formatDate, formatDateTime } from "@/utils/formatDate";
 import { formatPrice } from "@/utils/formatPrice";
 
 const categories = ["Maschinen", "Angebote", "Akkus", "Services"];
+const router = useRouter();
 const dialog = ref(false);
 const demoName = ref<string | number | null>("");
 const demoPrice = ref<string | number | null>(null);
@@ -247,8 +224,10 @@ const tableHeaders: BaseTableHeader[] = [
     align: "end",
     renderAs: "chip",
     sortable: true,
-    formatter: (value, item) => (item.aktiv ? "Aktiv" : "Inaktiv"),
-    sortAccessor: (_value, item) => (item.aktiv ? 1 : 0),
+    formatter: (value, item) =>
+      (item as { aktiv?: boolean }).aktiv ? "Aktiv" : "Inaktiv",
+    sortAccessor: (_value, item) =>
+      (item as { aktiv?: boolean }).aktiv ? 1 : 0,
     chipColorMap: {
       Aktiv: "success",
       Inaktiv: "error",
@@ -341,11 +320,9 @@ function showSnack(type: "success" | "warning" | "error") {
   snackbarVisible.value = true;
 }
 
-function handleTableAction(payload: {
-  actionKey: string;
-  item: Record<string, unknown>;
-}) {
-  const itemName = String(payload.item.name ?? "Eintrag");
+function handleTableAction(payload: { actionKey: string; item: object }) {
+  const itemRecord = payload.item as Record<string, unknown>;
+  const itemName = String(itemRecord.name ?? "Eintrag");
 
   if (payload.actionKey === "delete") {
     snackbarColor.value = "error";
@@ -359,5 +336,9 @@ function handleTableAction(payload: {
   }
 
   snackbarVisible.value = true;
+}
+
+function goTo(path: string) {
+  router.push(path);
 }
 </script>

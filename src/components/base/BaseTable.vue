@@ -126,8 +126,8 @@
                     :color="action.color ?? 'primary'"
                     :variant="action.variant ?? 'tonal'"
                     size="small"
-                    :loading="action.loading"
-                    :disabled="action.disabled"
+                    :loading="action.loading ?? false"
+                    :disabled="action.disabled ?? false"
                     @click.stop="emitAction(action.key, item)"
                   >
                     <v-icon v-if="action.icon" :icon="action.icon" />

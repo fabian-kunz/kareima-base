@@ -9,11 +9,38 @@
       </template>
     </v-list-item>
 
-    <v-list-item title="Formular-Demo" @click="router.push('/form-demo')">
+    <v-list-item
+      title="Tabellen-Showcase"
+      @click="router.push('/table-showcase')"
+    >
       <template #prepend>
         <v-icon
-          :class="currentRoute === '/form-demo' ? 'active' : ''"
-          icon="mdi-form-select"
+          :class="currentRoute === '/table-showcase' ? 'active' : ''"
+          icon="mdi-table-large"
+        />
+      </template>
+    </v-list-item>
+
+    <v-list-item
+      title="Input-Showcase"
+      @click="router.push('/inputs-showcase')"
+    >
+      <template #prepend>
+        <v-icon
+          :class="currentRoute === '/inputs-showcase' ? 'active' : ''"
+          icon="mdi-form-dropdown"
+        />
+      </template>
+    </v-list-item>
+
+    <v-list-item
+      title="Interaktions-Demo"
+      @click="router.push('/interaction-demo')"
+    >
+      <template #prepend>
+        <v-icon
+          :class="currentRoute === '/interaction-demo' ? 'active' : ''"
+          icon="mdi-message-badge-outline"
         />
       </template>
     </v-list-item>

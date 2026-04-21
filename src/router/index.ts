@@ -2,6 +2,9 @@ import { createRouter, createWebHistory } from "vue-router";
 import StarterHomeView from "@/views/StarterHomeView.vue";
 import ModuleTemplateView from "@/views/ModuleTemplateView.vue";
 import FormDemoView from "@/views/FormDemoView.vue";
+import TableShowcaseView from "@/views/TableShowcaseView.vue";
+import InteractionDemoView from "@/views/InteractionDemoView.vue";
+import InputsShowcaseView from "@/views/InputsShowcaseView.vue";
 
 const router = createRouter({
   history: createWebHistory(),
@@ -20,6 +23,21 @@ const router = createRouter({
       path: "/form-demo",
       name: "form-demo",
       component: FormDemoView,
+    },
+    {
+      path: "/table-showcase",
+      name: "table-showcase",
+      component: TableShowcaseView,
+    },
+    {
+      path: "/interaction-demo",
+      name: "interaction-demo",
+      component: InteractionDemoView,
+    },
+    {
+      path: "/inputs-showcase",
+      name: "inputs-showcase",
+      component: InputsShowcaseView,
     },
   ],
 });
