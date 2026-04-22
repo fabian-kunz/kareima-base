@@ -2,7 +2,7 @@
 
 Dieser Leitfaden definiert, wann welche Basis-Komponente und welche Variante genutzt wird.
 
-## BaseActionButton
+## KActionButton
 
 - `intent="primary"`
   - Zweck: Primäre Abschlussaktion auf einer Seite oder in einem Dialog
@@ -24,55 +24,56 @@ Dieser Leitfaden definiert, wann welche Basis-Komponente und welche Variante gen
   - Beispiel: Abbrechen, Schließen, Später
   - Mapping: color default, variant text
 
-## BaseTextField
+## KTextField
 
 - Immer für normale Texteingaben verwenden
 - Standard: solo-filled, grey-lighten-4, flat
 - Nicht direkt v-text-field in Fach-Views verwenden, wenn kein Sonderfall vorliegt
 
-## BaseFilterPanel
+## KFilterPanel
 
 - Nutzen für Listen/Tabellen-Ansichten mit Suche/Filter
-- Enthalten: Kategorien, Preis min/max, Sortierung, Reset
-- Nutze ein einheitliches Filtermodell für alle Domains
+- Enthalten: Layout-Wrapper für Filterzeilen plus Reset-Aktion
+- Eingabefelder werden je View per Slot eingebettet
+- Keine fachliche Default-Struktur in der Basis-Komponente hinterlegen
 
-## BaseConfirmDialog
+## KConfirmDialog
 
 - Immer für kritische oder irreversible Aktionen verwenden
 - Titel und Nachricht müssen explizit sein
 - `confirm-intent="danger"` nur für echte Lösch- oder irreversible Aktionen
 
-## BaseAlert
+## KAlert
 
 - Für sichtbare Statusmeldungen im Seiteninhalt nutzen
 - Typen: `info`, `success`, `warning`, `error`
 - Standard: `variant="tonal"`
 
-## BaseSnackbar
+## KSnackbar
 
 - Für kurze, temporäre Rückmeldungen nach Aktionen nutzen
 - Position: unten rechts
 - Typische Dauer: 2 bis 3 Sekunden
 
-## BaseTable
+## KTable
 
 - Für einfache tabellarische Übersichten nutzen
 - Übergabe über `headers` und `items`
 - Enthält bereits Lade- und Empty-State
+- Optional: `autoHeightOffset`, wenn die Tabellenhöhe aus dem Viewport berechnet werden soll
 
-## BasePageHeader
+## KContainer
 
-- Jede Hauptseite startet mit einem Header
-- Enthält Titel, optional Untertitel und Action-Slot
-- Maximal 1 primäre und 1-2 sekundäre Aktionen
+- Jede Hauptseite startet mit `KContainer`
+- Header über `title`, `subtitle`, `header-actions` und `header-content` aufbauen
+- `#body` für den scrollbaren Seiteninhalt nutzen
 
 ## Layout-Regeln
 
-- Das Seitenlayout erfolgt über BaseLayout mit seitlicher Navigation
+- Das Seitenlayout erfolgt über `AppShellLayout` mit seitlicher Navigation
 - Hintergrund der Applikationsfläche: #dfe0eb
 - Fachliche Inhalte liegen immer im weißen Inhaltscontainer
-- Für klassische Overview-Seiten ist der Container-Block mit
-  v-container fluid class="fill-height pa-0" im Inhaltsbereich erlaubt
+- Scrollverhalten läuft über `KContainer` und den Layout-Flex-Pfad, nicht über individuelle Overflow-Hacks in jeder View
 
 ## Variantenregeln insgesamt
 

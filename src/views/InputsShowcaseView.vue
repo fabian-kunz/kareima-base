@@ -1,12 +1,8 @@
 <template>
-  <KContainer>
-    <template #header>
-      <KPageHeader
-        title="Input-Showcase"
-        subtitle="Text, Zahl, Datum, Auswahl, Filterpanel und Validierung mit Base-Komponenten"
-      />
-    </template>
-
+  <KContainer
+    title="Input-Showcase"
+    subtitle="Text, Zahl, Datum, Auswahl, Filterpanel und Validierung mit Base-Komponenten"
+  >
     <template #body>
       <div class="d-flex flex-column ga-4 view-body">
         <v-card class="pa-4 kareima-surface" elevation="0">
@@ -72,7 +68,44 @@
           </v-form>
         </v-card>
 
-        <KFilterPanel v-model="filters" :categories="categories" />
+        <KFilterPanel @reset="resetFilters">
+          <v-col cols="12" md="4">
+            <KAutocomplete
+              v-model="filters.categories"
+              :items="categories"
+              chips
+              clearable
+              multiple
+              label="Kategorien"
+              prepend-inner-icon="mdi-shape-outline"
+            />
+          </v-col>
+
+          <v-col cols="6" md="2">
+            <KNumberField
+              v-model="filters.priceMin"
+              label="Preis min"
+              :min="0"
+            />
+          </v-col>
+
+          <v-col cols="6" md="2">
+            <KNumberField
+              v-model="filters.priceMax"
+              label="Preis max"
+              :min="0"
+            />
+          </v-col>
+
+          <v-col cols="12" md="3">
+            <KAutocomplete
+              v-model="filters.sortBy"
+              :items="sortItems"
+              label="Sortierung"
+              prepend-inner-icon="mdi-sort"
+            />
+          </v-col>
+        </KFilterPanel>
 
         <v-card class="pa-4 kareima-surface" elevation="0">
           <h2 class="kareima-section-title mb-2">Live-Output</h2>
@@ -147,7 +180,6 @@ import KContainer from "@/components/base/KContainer.vue";
 import KDatePicker from "@/components/base/KDatePicker.vue";
 import KFilterPanel from "@/components/base/KFilterPanel.vue";
 import KNumberField from "@/components/base/KNumberField.vue";
-import KPageHeader from "@/components/base/KPageHeader.vue";
 import KSnackbar from "@/components/base/KSnackbar.vue";
 import KTextArea from "@/components/base/KTextArea.vue";
 import KTextField from "@/components/base/KTextField.vue";
@@ -191,6 +223,14 @@ const filters = ref<BaseFilterModel>({
   sortBy: "top",
 });
 
+const sortItems = [
+  { title: "Empfohlen", value: "top" },
+  { title: "Preis aufsteigend", value: "price-asc" },
+  { title: "Preis absteigend", value: "price-desc" },
+  { title: "Name A bis Z", value: "name-asc" },
+  { title: "Name Z bis A", value: "name-desc" },
+] as const;
+
 const required =
   (label: string): Rule =>
   (value) => {
@@ -223,6 +263,15 @@ async function submit() {
 function resetForm() {
   formRef.value?.reset();
   saved.value = false;
+}
+
+function resetFilters() {
+  filters.value = {
+    categories: [],
+    priceMin: null,
+    priceMax: null,
+    sortBy: "top",
+  };
 }
 </script>
 

@@ -203,6 +203,7 @@
 
 <script lang="ts" setup>
 import { computed, ref, useSlots, watch } from "vue";
+import { useDisplay } from "vuetify";
 
 type KTableRow = object;
 
@@ -242,6 +243,7 @@ const props = withDefaults(
     itemKey?: string;
     density?: "compact" | "normal";
     height?: string | number;
+    autoHeightOffset?: { mobile?: number; desktop?: number };
     initialSortKey?: string;
     initialSortDirection?: "asc" | "desc";
     actionMode?: "actions" | "menu";
@@ -272,6 +274,7 @@ const props = withDefaults(
 );
 
 const slots = useSlots();
+const display = useDisplay();
 
 const emit = defineEmits<{
   (e: "action", payload: { actionKey: string; item: KTableRow }): void;
@@ -286,7 +289,20 @@ const tableDensity = computed(() =>
   props.density === "compact" ? "compact" : "comfortable",
 );
 
-const resolvedHeight = computed(() => props.height);
+const resolvedHeight = computed(() => {
+  if (props.height) {
+    return props.height;
+  }
+
+  if (props.autoHeightOffset) {
+    const offset = display.mdAndDown.value
+      ? (props.autoHeightOffset.mobile ?? 380)
+      : (props.autoHeightOffset.desktop ?? 315);
+    return `calc(100vh - ${offset}px)`;
+  }
+
+  return undefined;
+});
 
 const hasExpandableRows = computed(
   () => props.expandableRows && Boolean(slots["expanded-row"]),
@@ -409,19 +425,13 @@ function formatCellValue(header: KTableHeader, item: KTableRow): string {
   return formatCell(value);
 }
 
-function formatCellSubtitle(
-  header: KTableHeader,
-  item: KTableRow,
-): string {
+function formatCellSubtitle(header: KTableHeader, item: KTableRow): string {
   if (!header.subtitleAccessor) return "";
   const value = asRecord(item)[header.key];
   return header.subtitleAccessor(value, item);
 }
 
-function resolveChipList(
-  header: KTableHeader,
-  item: KTableRow,
-): string[] {
+function resolveChipList(header: KTableHeader, item: KTableRow): string[] {
   const value = asRecord(item)[header.key];
   if (!Array.isArray(value)) {
     return value ? [String(value)] : [];

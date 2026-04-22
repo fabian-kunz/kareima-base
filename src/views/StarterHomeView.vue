@@ -1,15 +1,11 @@
 <template>
-  <KContainer>
-    <template #header>
-      <KPageHeader
-        title="Kareima Basisprojekt und Komponenten"
-        subtitle="Gemeinsame Start- und Showcase-Seite für Basis-Komponenten und Einsatzregeln"
-      >
-        <template #actions>
-          <KActionButton intent="primary">Primary</KActionButton>
-          <KActionButton intent="secondary">Secondary</KActionButton>
-        </template>
-      </KPageHeader>
+  <KContainer
+    title="Kareima Basisprojekt und Komponenten"
+    subtitle="Gemeinsame Start- und Showcase-Seite für Basis-Komponenten und Einsatzregeln"
+  >
+    <template #header-actions>
+      <KActionButton intent="primary">Primary</KActionButton>
+      <KActionButton intent="secondary">Secondary</KActionButton>
     </template>
 
     <template #body>
@@ -68,11 +64,46 @@
 
         <v-card class="pa-4 kareima-surface" elevation="0">
           <h2 class="kareima-section-title mb-4">Filter</h2>
-          <KFilterPanel
-            v-model="filters"
-            :categories="categories"
-            class="mb-4"
-          />
+          <KFilterPanel class="mb-4" @reset="resetFilters">
+            <v-col cols="12" md="4">
+              <KAutocomplete
+                v-model="filters.categories"
+                :items="categories"
+                chips
+                clearable
+                multiple
+                label="Kategorien"
+                prepend-inner-icon="mdi-shape-outline"
+              />
+            </v-col>
+
+            <v-col cols="6" md="2">
+              <KTextField
+                v-model="filters.priceMin"
+                label="Preis min"
+                type="number"
+                prepend-inner-icon="mdi-currency-eur"
+              />
+            </v-col>
+
+            <v-col cols="6" md="2">
+              <KTextField
+                v-model="filters.priceMax"
+                label="Preis max"
+                type="number"
+                prepend-inner-icon="mdi-currency-eur"
+              />
+            </v-col>
+
+            <v-col cols="12" md="3">
+              <KAutocomplete
+                v-model="filters.sortBy"
+                :items="sortItems"
+                label="Sortierung"
+                prepend-inner-icon="mdi-sort"
+              />
+            </v-col>
+          </KFilterPanel>
         </v-card>
 
         <v-card class="pa-4 kareima-surface" elevation="0">
@@ -206,10 +237,10 @@ import { computed, ref } from "vue";
 import { useRouter } from "vue-router";
 import KActionButton from "@/components/base/KActionButton.vue";
 import KAlert from "@/components/base/KAlert.vue";
+import KAutocomplete from "@/components/base/KAutocomplete.vue";
 import KContainer from "@/components/base/KContainer.vue";
 import KConfirmDialog from "@/components/base/KConfirmDialog.vue";
 import KFilterPanel from "@/components/base/KFilterPanel.vue";
-import KPageHeader from "@/components/base/KPageHeader.vue";
 import KSnackbar from "@/components/base/KSnackbar.vue";
 import KTable from "@/components/base/KTable.vue";
 import KTextField from "@/components/base/KTextField.vue";
@@ -347,6 +378,14 @@ const filters = ref<BaseFilterModel>({
   sortBy: "top",
 });
 
+const sortItems = [
+  { title: "Empfohlen", value: "top" },
+  { title: "Preis aufsteigend", value: "price-asc" },
+  { title: "Preis absteigend", value: "price-desc" },
+  { title: "Name A bis Z", value: "name-asc" },
+  { title: "Name Z bis A", value: "name-desc" },
+] as const;
+
 const renderedFilterSummary = computed(() => {
   const output: string[] = [];
 
@@ -397,6 +436,15 @@ function handleTableAction(payload: { actionKey: string; item: object }) {
 
 function goTo(path: string) {
   router.push(path);
+}
+
+function resetFilters() {
+  filters.value = {
+    categories: [],
+    priceMin: null,
+    priceMax: null,
+    sortBy: "top",
+  };
 }
 </script>
 

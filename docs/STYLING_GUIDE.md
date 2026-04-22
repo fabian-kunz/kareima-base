@@ -27,7 +27,7 @@ Quelle: src/styles/tokens.css
 - VBtn:
   - rounded lg
   - Grundfarbe primary
-  - Variant wird über BaseActionButton gesteuert
+  - Variant wird über KActionButton gesteuert
 
 ## Do and Don’t
 

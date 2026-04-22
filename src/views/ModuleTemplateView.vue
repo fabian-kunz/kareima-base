@@ -1,12 +1,8 @@
 <template>
-  <KContainer>
-    <template #header>
-      <KPageHeader
-        title="Projekt-Guide"
-        subtitle="Verbindliche Leitlinien für Struktur, Komponenten und Erweiterungen im Kareima Base-Projekt"
-      />
-    </template>
-
+  <KContainer
+    title="Projekt-Guide"
+    subtitle="Verbindliche Leitlinien für Struktur, Komponenten und Erweiterungen im Kareima Base-Projekt"
+  >
     <template #body>
       <div class="d-flex flex-column ga-4 view-body">
         <v-card class="pa-4 kareima-surface" elevation="0">
@@ -41,8 +37,8 @@
               `#header`/`#body`/`#footer`-Slots
             </div>
             <div class="guide-row">
-              <strong>Header:</strong> KPageHeader + KActionButton für
-              Primäraktionen
+              <strong>Header:</strong> KContainer Header-API
+              (title/subtitle/header-actions/header-content)
             </div>
             <div class="guide-row">
               <strong>Tabellen:</strong> KTable statt direkter v-data-table
@@ -72,10 +68,14 @@
           </h2>
           <ol class="pl-5">
             <li>Store anlegen oder erweitern und API-Daten kapseln.</li>
-            <li>View mit KContainer und KPageHeader aufsetzen.</li>
-            <li>Form-/Filterfelder mit KTextField/KFilterPanel anbinden.</li>
+            <li>View mit KContainer und integrierter Header-API aufsetzen.</li>
             <li>
-              Listenansicht mit KTable aufbauen (Sortierung/Actions definieren).
+              Formfelder mit KTextField/KAutocomplete aufbauen und Filter über
+              KFilterPanel-Slots strukturieren.
+            </li>
+            <li>
+              Listenansicht mit KTable aufbauen (Sortierung/Actions definieren,
+              bei Bedarf Auto-Höhe aktivieren).
             </li>
             <li>KConfirmDialog für Lösch-/Abbruchflüsse ergänzen.</li>
             <li>Typecheck und Demo-Seite aktualisieren.</li>
@@ -104,7 +104,6 @@
 
 <script lang="ts" setup>
 import KContainer from "@/components/base/KContainer.vue";
-import KPageHeader from "@/components/base/KPageHeader.vue";
 
 const moduleTree = `feature-module/
   components/

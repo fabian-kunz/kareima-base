@@ -4,7 +4,7 @@ Dieses Projekt ist ein wiederverwendbarer Starter für neue Kareima-Frontends.
 
 ## Ziel
 
-- Einheitliche UI-Bausteine für Formulare, Header, Dialoge und Filter
+- Einheitliche UI-Bausteine für Formulare, Header, Dialoge, Tabellen und Filter
 - Zentrale Design-Tokens statt verteilter Hex-Farben
 - Dokumentierte Regeln, wann welche Komponente und Variante zu nutzen ist
 
@@ -16,7 +16,7 @@ Dieses Projekt ist ein wiederverwendbarer Starter für neue Kareima-Frontends.
 - Seitenhintergrund #dfe0eb mit weißem Inhalts-Container
 - Basis-Komponenten in src/components/base
 - Globale Tokens und Styles in src/styles
-- Dokumentation in docs
+- Dokumentation in docs sowie über die Showcase-Views im Router
 
 ## Start
 
@@ -36,8 +36,11 @@ npm run dev
 
 ## Routen im Starter
 
-- /: Startseite mit Basisbeispiel
-- /module-template: Modulstruktur und Onboarding
+- /: Startseite mit Komponenten-Überblick
+- /guide: Modulstruktur und Onboarding
+- /inputs-showcase: Formular-, Eingabe- und Filter-Demo
+- /table-showcase: Tabellen-Demo inkl. Auto-Höhe
+- /interaction-demo: Dialog-, Alert- und Snackbar-Demo
 
 ## Hinweis
 

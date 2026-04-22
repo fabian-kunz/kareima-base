@@ -49,7 +49,7 @@
           :style="mainStyle"
         >
           <div class="kareima-content-container">
-            <div class="kareima-page">
+            <div class="kareima-content-slot">
               <slot />
             </div>
           </div>
@@ -92,15 +92,33 @@ onMounted(() => {
 }
 
 .loggedin-main {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
   transition:
     margin-left 0.2s ease,
     width 0.2s ease;
+}
+
+.kareima-content-container,
+.kareima-content-slot {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  min-height: 0;
 }
 
 :deep(.v-main) {
   background-color: #dfe0eb;
   height: 100vh;
   overflow: hidden;
+}
+
+:deep(.v-main__wrap) {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  min-height: 0;
 }
 
 .app-logo {
@@ -123,7 +141,8 @@ onMounted(() => {
   padding-top: 6px;
 }
 
-:deep(.v-navigation-drawer--rail.v-navigation-drawer--is-hovering .app-logo) {
+:deep(.v-navigation-drawer--rail.v-navigation-drawer--is-hovering .app-logo),
+:deep(.v-navigation-drawer:not(.v-navigation-drawer--rail) .app-logo) {
   width: 125px;
   border-radius: 16px;
 }

@@ -1,12 +1,8 @@
 <template>
-  <KContainer>
-    <template #header>
-      <KPageHeader
-        title="Interaktions-Demo"
-        subtitle="Alerts, ConfirmDialog, Snackbar und kombinierte Nutzerflüsse"
-      />
-    </template>
-
+  <KContainer
+    title="Interaktions-Demo"
+    subtitle="Alerts, ConfirmDialog, Snackbar und kombinierte Nutzerflüsse"
+  >
     <template #body>
       <div class="d-flex flex-column ga-4 view-body">
         <v-card class="pa-4 kareima-surface" elevation="0">
@@ -100,7 +96,6 @@ import KActionButton from "@/components/base/KActionButton.vue";
 import KAlert from "@/components/base/KAlert.vue";
 import KContainer from "@/components/base/KContainer.vue";
 import KConfirmDialog from "@/components/base/KConfirmDialog.vue";
-import KPageHeader from "@/components/base/KPageHeader.vue";
 import KSnackbar from "@/components/base/KSnackbar.vue";
 
 const confirmOpen = ref(false);

@@ -1,33 +1,28 @@
 <template>
-  <KContainer>
-    <template #header>
-      <KPageHeader
-        title="Tabellen-Showcase"
-        subtitle="Sortierung, Aktionen, Zeilenklick und expandierte Detailzeilen mit KTable"
-      >
-        <template #actions>
-          <KActionButton intent="secondary" @click="toggleDensity">
-            {{ compactDensity ? "Dichte: Kompakt" : "Dichte: Normal" }}
-          </KActionButton>
-          <KActionButton intent="ghost" @click="toggleActionMode">
-            {{
-              actionMode === "actions" ? "Aktionen: Buttons" : "Aktionen: Menü"
-            }}
-          </KActionButton>
-        </template>
-      </KPageHeader>
+  <KContainer
+    title="Tabellen-Showcase"
+    subtitle="Sortierung, Aktionen, Zeilenklick, expandierte Detailzeilen und optionale Auto-Höhe mit KTable"
+  >
+    <template #header-actions>
+      <KActionButton intent="secondary" @click="toggleDensity">
+        {{ compactDensity ? "Dichte: Kompakt" : "Dichte: Normal" }}
+      </KActionButton>
+      <KActionButton intent="ghost" @click="toggleActionMode">
+        {{ actionMode === "actions" ? "Aktionen: Buttons" : "Aktionen: Menü" }}
+      </KActionButton>
     </template>
 
     <template #body>
       <div class="d-flex flex-column ga-4 view-body">
         <KAlert
           type="info"
-          message="Klicke auf eine Zeile, nutze Aktionen oder öffne Detailzeilen über den Button ganz rechts."
+          message="Klicke auf eine Zeile, nutze Aktionen oder öffne Detailzeilen über den Button ganz rechts. Die Tabellenhöhe wird hier optional über KTable selbst berechnet."
         />
 
         <KTable
           :headers="headers"
           :items="items"
+          :auto-height-offset="{ mobile: 360, desktop: 600 }"
           :density="compactDensity ? 'compact' : 'normal'"
           :action-mode="actionMode"
           :row-actions="resolveRowActions"
@@ -70,7 +65,6 @@ import { ref } from "vue";
 import KActionButton from "@/components/base/KActionButton.vue";
 import KAlert from "@/components/base/KAlert.vue";
 import KContainer from "@/components/base/KContainer.vue";
-import KPageHeader from "@/components/base/KPageHeader.vue";
 import KSnackbar from "@/components/base/KSnackbar.vue";
 import KTable from "@/components/base/KTable.vue";
 import type { KTableAction, KTableHeader } from "@/components/base/KTable.vue";
@@ -94,6 +88,11 @@ type DemoRow = {
   updatedAt: string;
   history: HistoryEntry[];
 };
+
+type DemoSeedRow = Omit<
+  DemoRow,
+  "id" | "name" | "ownerEmail" | "netValue" | "updatedAt"
+>;
 
 const compactDensity = ref(false);
 const actionMode = ref<"actions" | "menu">("actions");
@@ -163,16 +162,11 @@ const historyHeaders: KTableHeader[] = [
   { key: "note", title: "Änderung" },
 ];
 
-const items = ref<DemoRow[]>([
+const demoSeeds: DemoSeedRow[] = [
   {
-    id: 1,
-    name: "Rahmenvertrag Nord",
     ownerName: "Lea Winter",
-    ownerEmail: "lea.winter@kareima.de",
     status: "Aktiv",
     roles: ["Vertrieb", "Service"],
-    netValue: 12900,
-    updatedAt: "2026-04-21T10:12:00",
     history: [
       {
         changedAt: "2026-04-21T10:12:00",
@@ -187,14 +181,9 @@ const items = ref<DemoRow[]>([
     ],
   },
   {
-    id: 2,
-    name: "Servicepaket Süd",
     ownerName: "Tom Weiss",
-    ownerEmail: "tom.weiss@kareima.de",
     status: "Entwurf",
     roles: ["Einkauf"],
-    netValue: 4200,
-    updatedAt: "2026-04-20T14:05:00",
     history: [
       {
         changedAt: "2026-04-20T14:05:00",
@@ -204,17 +193,37 @@ const items = ref<DemoRow[]>([
     ],
   },
   {
-    id: 3,
-    name: "Legacy-Angebot West",
     ownerName: "Nora Brandt",
-    ownerEmail: "nora.brandt@kareima.de",
     status: "Archiviert",
     roles: ["Admin"],
-    netValue: 860,
-    updatedAt: "2026-04-18T07:10:00",
     history: [],
   },
-]);
+];
+
+const items = ref<DemoRow[]>(
+  Array.from({ length: 18 }, (_, index) => {
+    const seed = demoSeeds[index % demoSeeds.length]!;
+    const cycle = Math.floor(index / demoSeeds.length) + 1;
+    const day = 21 - (index % 12);
+    const hour = 8 + (index % 9);
+    const minute = (index * 7) % 60;
+
+    return {
+      id: index + 1,
+      name: `${seed.status} Demo ${cycle}-${(index % demoSeeds.length) + 1}`,
+      ownerName: seed.ownerName,
+      ownerEmail: `${seed.ownerName.toLowerCase().replace(" ", ".")}@kareima.de`,
+      status: seed.status,
+      roles: [...seed.roles],
+      netValue: 850 + cycle * 1750 + index * 320,
+      updatedAt: `2026-04-${String(Math.max(day, 10)).padStart(2, "0")}T${String(hour).padStart(2, "0")}:${String(minute).padStart(2, "0")}:00`,
+      history: seed.history.map((entry, historyIndex) => ({
+        ...entry,
+        changedAt: `2026-04-${String(Math.max(day - historyIndex, 10)).padStart(2, "0")}T${String(Math.max(hour - historyIndex, 6)).padStart(2, "0")}:${String(minute).padStart(2, "0")}:00`,
+      })),
+    };
+  }),
+);
 
 function resolveRowActions(item: object): KTableAction[] {
   const row = item as DemoRow;

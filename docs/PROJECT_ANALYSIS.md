@@ -11,7 +11,7 @@
 - Sehr viele Formfelder mit identischem Pattern: solo-filled, grey-lighten-4, flat
 - Buttons mit wiederkehrender Farbgebung (#02A77F) in vielen Dateien
 - Mehrere bestätigende Dialoge mit ähnlicher Struktur
-- Filterleisten als Kombination aus Kategorie, Preisbereich und Sortierung
+- Filterleisten als Kombination aus Such-/Filterfeldern in einer gemeinsamen Filterzeile
 
 ## Hauptprobleme
 
@@ -23,4 +23,4 @@
 
 - Theme/Tokens als Single Source of Truth
 - Basis-Komponenten statt Copy-and-Paste
-- Dokumentation mit klaren Einsatzregeln für Varianten
+- Dokumentation mit klaren Einsatzregeln für Varianten und Slot-basierte Layout-Bausteine
